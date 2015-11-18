@@ -17,21 +17,20 @@ num_per_class_mat = repmat(num_per_class, [dims,1]);
 mean_mats = mean_mats ./ num_per_class_mat;
 tot_mean = tot_mean ./ num_points;
 
-Sb = zeros(dim);
+Sb = zeros(dims);
 for i = 1:num_classes
     class_dist = mean_mats(:,i) - tot_mean;
     Sb = Sb + num_per_class(i).*(class_dist*class_dist');
 end
-Sw = zeros(dim);
+Sw = zeros(dims);
 for i = 1:num_classes
     cur_mean_mat = repmat(mean_mats(:,i), [1,num_per_class(i)]);
     x_min_mean = X(:,labels == i) - cur_mean_mat;
     Sw = Sw + x_min_mean*x_min_mean';
 end
 
-E = Sw\Sb;
-[vecs, lambdas] = eig(E);
-
+[vecs, lambdas] = eig(Sb,Sw);
+lambdas = diag(lambdas);
 
 end
 
