@@ -1,6 +1,20 @@
-function data_struct = dataPreprocess(dataset_path, fs)
+function data_struct = dataPreprocess(dataset_path, fs, gait)
 % dataset format requires:
-% end with -personId.txt
+%   end with -personId.txt
+% Pattern Recognition Project
+% Author: Chen Liang
+% Time: Nov-18-2015
+
+if nargin < 3,
+    gait = 'walking';
+end
+
+% sampling rate conversion
+default_fs = 32;
+if nargin < 2,
+    fs = default_fs;
+end
+[p, q] = rat(fs/default_fs);
 
 files = dir([dataset_path '/*.txt']);
 num_files = length(files);
@@ -14,6 +28,8 @@ value3 = cell(0);
 data_struct = struct(field1, value1, field2, value2, field3, value3);
 for i = 1:num_files,
     disp(files(i).name);
+    
+    % get personId by text parsing
     personId = strsplit(files(i).name, '-');
     personId = personId{end};
     personId = strsplit(personId, '.');
@@ -22,9 +38,12 @@ for i = 1:num_files,
     % get content in current file
     fileID = fopen([dataset_path '/' files(i).name], 'r');
     current_data = fscanf(fileID, '%f');
+    fclose(fileID);
+    
+    % process data
     current_data = buffer(current_data, 3, 0,'nodelay');
     current_data = (-1.5 + (current_data/63) * 3) * 1000;
-    fclose(fileID);
+    current_data = resample(current_data', p, q)';
     
     try,
         index = strfind(data_struct.personId, personId);
@@ -38,8 +57,10 @@ for i = 1:num_files,
         data_struct(1).personId{1} = personId;
         data_struct(1).data{1} = cell(1);
         data_struct(1).data{1}{1} = current_data;
+        data_struct(1).gait{1} = gait;
     elseif isempty(index),
         data_struct.personId{end+1} = personId;
+        data_struct.gait{end+1} = gait;
         data_struct.data{end+1} = cell(1);
         data_struct.data{end}{1} = current_data;
     else,
