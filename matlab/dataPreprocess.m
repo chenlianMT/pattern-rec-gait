@@ -1,6 +1,10 @@
 function data_struct = dataPreprocess(dataset_path, fs, gait)
-% dataset format requires:
+% file names in dataset requires:
 %   end with -personId.txt
+% dataset_path: relative path of current working path
+% fs: sampling rate of data
+% gait: string of name of current gait
+% 
 % Pattern Recognition Project
 % Author: Chen Liang
 % Time: Nov-18-2015
@@ -49,21 +53,25 @@ for i = 1:num_files,
         index = strfind(data_struct.personId, personId);
         index = find(not(cellfun('isempty', index)));
     catch,
-        % the 1st file added
+        % catch the first file in an empty struct
         index = -1;
     end
 
+    % add to struct
     if index == -1,
+        % first entry in the dataset
         data_struct(1).personId{1} = personId;
         data_struct(1).data{1} = cell(1);
         data_struct(1).data{1}{1} = current_data;
         data_struct(1).gait{1} = gait;
     elseif isempty(index),
+        % first entry of a specific person
         data_struct.personId{end+1} = personId;
         data_struct.gait{end+1} = gait;
         data_struct.data{end+1} = cell(1);
         data_struct.data{end}{1} = current_data;
     else,
+        % entries for an existed person
         data_struct.data{index}{end+1} = current_data;
     end
 end
