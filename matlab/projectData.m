@@ -10,11 +10,12 @@ for i = 1:num_ppl
     data_struct.eigVec{i} = cell(1,num_trials);
     data_struct.dataProj{i} = cell(1,num_trials);
     for j = 1:num_trials
-        [vec, lambda] = PCA(data_struct.data{i}{j});
+        [vec, lambda, Xnew, Xmean] = PCA(data_struct.data{i}{j}(:,50:end-50));
         [~,vec_idx] = max(lambda);
         vec = vec(:,vec_idx);
         data_struct.eigVec{i}{j} = vec;
-        data_struct.dataProj{i}{j} = vec'*data_struct.data{i}{j};
+        Xproj = Xnew + repmat(Xmean, [1,length(Xnew)]);
+        data_struct.dataProj{i}{j} = Xproj;%(vec_idx,:);
     end
 end
         
