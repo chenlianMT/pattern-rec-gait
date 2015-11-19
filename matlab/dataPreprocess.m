@@ -41,7 +41,7 @@ for i = 1:num_files,
     elseif isempty(index),
         data_struct.personId{end+1} = personId;
         data_struct.data{end+1} = cell(1);
-        data_struct.data{end+1}{1} = current_data;
+        data_struct.data{end}{1} = current_data;
     else,
         data_struct.data{index}{end+1} = current_data;
     end
