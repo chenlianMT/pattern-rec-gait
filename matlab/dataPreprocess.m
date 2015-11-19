@@ -1,24 +1,35 @@
-function data_struct = dataPreprocess(dataset_path, fs, gait)
+function data_struct = dataPreprocess(dataset_path, filter_flag, fs, dataset_name, gait)
 % file names in dataset requires:
 %   end with -personId.txt
 % dataset_path: relative path of current working path
 % fs: sampling rate of data
 % gait: string of name of current gait
+%
+% eg: dataPreprocess('../../DATA/HMP_Dataset/Walk')
 % 
 % Pattern Recognition Project
 % Author: Chen Liang
 % Time: Nov-18-2015
 
-if nargin < 3,
+if nargin < 5,
     gait = 'walking';
+end
+
+if nargin < 4,
+    dataset_name = 'HMP';
 end
 
 % sampling rate conversion
 default_fs = 32;
-if nargin < 2,
+if nargin < 3,
     fs = default_fs;
 end
 [p, q] = rat(fs/default_fs);
+
+% filter flag
+if nargin < 2,
+    filter_flag = 0;
+end
 
 files = dir([dataset_path '/*.txt']);
 num_files = length(files);
@@ -49,6 +60,17 @@ for i = 1:num_files,
     current_data = (-1.5 + (current_data/63) * 3) * 1000;
     current_data = resample(current_data', p, q)';
     
+    % extra direction correction for different dataset
+%     if dataset_name == 'HMP',
+%         % do nothing
+%     end
+
+    % add noise filter --> Median filter
+    if filter_flag,
+        n = 3; % order
+        current_data = medfilt1(current_data, n, [], 2);
+    end
+
     try,
         index = strfind(data_struct.personId, personId);
         index = find(not(cellfun('isempty', index)));
