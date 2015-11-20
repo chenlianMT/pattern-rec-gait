@@ -1,4 +1,4 @@
-data = dataPreprocess('../../DATA/HMP_Dataset/Walk');
+data = dataPreprocess('../../DATA/HMP_Dataset/Walk',1);
 
 data_filt = highPass_all(data,32,2);
 data_raw = projectData(data_filt);

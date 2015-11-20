@@ -1,1 +1,4 @@
 extract_period.m~
+test_mace_1d_projected_to_same_vector.m
+test_mace_3d_pick1d.m
+*.m~

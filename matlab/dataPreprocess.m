@@ -1,7 +1,9 @@
-function data_struct = dataPreprocess(dataset_path, filter_flag, fs, dataset_name, gait)
+function data_struct = dataPreprocess(dataset_path, filter_flag, wc, fs, dataset_name, gait)
 % file names in dataset requires:
 %   end with -personId.txt
 % dataset_path: relative path of current working path
+% filter_flag: add a low pass filter - default wc = 0.2 pi
+% wc: cutoff frequency in radius
 % fs: sampling rate of data
 % gait: string of name of current gait
 %
@@ -11,24 +13,31 @@ function data_struct = dataPreprocess(dataset_path, filter_flag, fs, dataset_nam
 % Author: Chen Liang
 % Time: Nov-18-2015
 
-if nargin < 5,
+if nargin < 6,
     gait = 'walking';
 end
 
-if nargin < 4,
+if nargin < 5,
     dataset_name = 'HMP';
 end
 
 % sampling rate conversion
 default_fs = 32;
-if nargin < 3,
+if nargin < 4,
     fs = default_fs;
 end
 [p, q] = rat(fs/default_fs);
 
 % filter flag
+if nargin < 3,
+    wc = 0.2;
+end
 if nargin < 2,
     filter_flag = 0;
+end
+if filter_flag,
+    d = fdesign.lowpass('Fp,Fst,Ap,Ast', wc, wc+0.05, 1, 60);
+    Hd = design(d,'equiripple');
 end
 
 files = dir([dataset_path '/*.txt']);
@@ -65,10 +74,13 @@ for i = 1:num_files,
 %         % do nothing
 %     end
 
-    % add noise filter --> Median filter
+    % add noise filter --> Low pass filter
     if filter_flag,
-        n = 3; % order
-        current_data = medfilt1(current_data, n, [], 2);
+        current_data(1, :) = filter(Hd, current_data(1, :));
+        current_data(2, :) = filter(Hd, current_data(2, :));
+        current_data(3, :) = filter(Hd, current_data(3, :));
+        % n = 3; % order
+        % current_data = medfilt1(current_data, n, [], 2);
     end
 
     try,
