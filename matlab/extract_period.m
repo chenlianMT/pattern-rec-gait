@@ -26,7 +26,10 @@ if length(I) > 1,
     steps = zeros(length(I)-1,step_size);
     for i = 1:length(I)-1,
         step = X(I(i):I(i+1));
-        steps(i,:) = resample(step,step_size,length(step));
+        step = resample(step,step_size,length(step));
+        step = step - mean(step); % normalization
+        step = step / norm(step);
+        steps(i,:) = step;
     end
 else
     t = Inf; % unable to determine the period
