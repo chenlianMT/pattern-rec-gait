@@ -1,4 +1,4 @@
-data = dataPreprocess('../../DATA/HMP_Dataset/Walk');
+data = dataPreprocess('../../DATA/HMP_Dataset/Walk', 1);
 data_raw = projectData(data);
 data_norm = projectData_norm(data);
 
