@@ -10,11 +10,18 @@ for i = 1:num_ppl
     data_struct.eigVec{i} = cell(1,num_trials);
     data_struct.dataProj{i} = cell(1,num_trials);
     for j = 1:num_trials
-        [vec, lambda, Xnew, Xmean] = PCA(data_struct.data{i}{j}(:,50:end-50));
+        X = data_struct.data{i}{j}(:,50:end-50);
+        X_mean = mean(X,2);
+        X_mean = repmat(X_mean, [1,length(X)]);
+        X = X - X_mean;
+        X_mag = sqrt(sum(X.^2,1));
+        X_mag = repmat(X_mag,[3,1]);
+        X = X ./ X_mag;
+        [vec, lambda, Xnew] = PCA(X, true);
         [~,vec_idx] = max(lambda);
         vec = vec(:,vec_idx);
         data_struct.eigVec{i}{j} = vec;
-        Xproj = Xnew + repmat(Xmean, [1,length(Xnew)]);
+        Xproj = Xnew.*X_mag + X_mean;
         data_struct.dataProj{i}{j} = Xproj(vec_idx,:);
     end
 end
