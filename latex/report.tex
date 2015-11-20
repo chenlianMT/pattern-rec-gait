@@ -88,7 +88,7 @@ By observing this image, the fundamental frequency is around $0.1\pi$, while the
 \end{center}
 \end{figure}
 
-Along with noise reduction, slow changing offsets in the signal must be removed.  Observing the figure below it is clear that the signal is slowly drifting which could
+Along with noise reduction, slow changing offsets in the signal must be removed.  Observing figure 5 it is clear that the signal is slowly drifting which could
 
 \begin{figure}[t]
 \begin{center}
@@ -98,7 +98,7 @@ Along with noise reduction, slow changing offsets in the signal must be removed.
 \end{center}
 \end{figure}
 
-lead to issues in later stages.  Bringing the data through a simple high pass filter with a cutoff of $0.5 Hz$ allows us to remove the offending drift without compromising the information in the data which is closer occurring at $1Hz$ or faster leaving us with the signal seen below:
+lead to issues in later stages.  Bringing the data through a simple high pass filter with a cutoff of $0.25 Hz$ allows us to remove the offending drift without compromising the information in the data which is closer occurring at $1Hz$ or faster leaving us with the signal seen in figure 6
 
 \begin{figure}[t]
 \begin{center}
@@ -151,6 +151,7 @@ We consider trying the following methods for the optimal classification scheme:
 \item Gaussian Mixture Model
 
 \end{itemize}
+After extracting features discussed above, (mace filter output, period, etc.) we will have a feature vector with a lot of information that identifies a person.  To find which of these features does the best at separating individuals, the listed classifiers will be used tried and the results of each compared.  LDA is trained on labeled data finding the lower dimensional space where they are maximally separated.  Adaboost looks at each dimension of the feature vector iteratively and chooses the single best one giving it a weight. This process is repeated over and over until a nonlinear decision boundary is chosen. KNN saves an instance of every data-point and new points are compared against them to find which of the classes has the majority of the closest points.  Gaussian Mixture models assume the data can be modeled as a sum of Gaussian probability distributions and finds the best parameters to do so.  Once modeled the new data-points are compared to the distribution to determine which class it best belongs in.  We suspect that since the feature vector is a series of many unrelated features that GMM and KNN will not work great and a solution like Adaboost will give us the best results.
 
 %------------------------------------------------------------------------
 \section{Database}
