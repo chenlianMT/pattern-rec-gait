@@ -64,59 +64,58 @@ The input data has 3 dimension -- $x$-axis, $y$-axis and $z$-axis. The following
 \begin{center}
 %\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
    \includegraphics[width=0.8\linewidth]{../img/fig1.jpg}
-   \caption{}
+   \caption{Raw input signal}
 \end{center}
 \end{figure}
 
-By looking at the data, we can find that the period is around $0.7s$. Moreover, we noticed that the signal is pretty noisy, and a low pass filter might be useful for future processing. To find out a proper cutoff frequency, we did Fourier transform on the raw data, along its $x$ axis, resulting the following image:
+By looking at the data shown in the upper panel in figure 1, we can find that the period is around $0.7s$. Moreover, we noticed that the signal is pretty noisy, and a low pass filter might be useful for future processing. To find out a proper cutoff frequency, we did Fourier transform on the raw data, along its $x$ axis, resulting in figure 2.
 
 \begin{figure}[t]
 \begin{center}
 %\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
    \includegraphics[width=0.8\linewidth]{../img/fig2.jpg}
-   \caption{}
+   \caption{Frequency response of the raw signal}
 \end{center}
 \end{figure}
 
-By observing this image, the fundamental frequency is around $0.1\pi$, while the envelop is descending with ascending frequency. Taking a reasonable frequency diversity of different individuals into account, we finally set the cutoff frequency to $0.3\pi$. While a group delay is produced by passing data through a finite duration low pass filter, a trivial step is needed to remove this group delay. The filtered data shown below:
+By observing the frequency response, we find out that the fundamental frequency is around $0.1\pi$, while the envelop is descending with ascending frequency. Taking a reasonable frequency diversity of different individuals into account, we finally set the cutoff frequency to $0.3\pi$. While a group delay is produced by passing data through a finite duration low pass filter, a trivial step is needed to remove this group delay. The filtered data shown in figure 3.
 
 \begin{figure}[t]
 \begin{center}
 %\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
    \includegraphics[width=0.8\linewidth]{../img/fig3.jpg}
-   \caption{}
+   \caption{Input data after filtering}
 \end{center}
 \end{figure}
-
-Along with noise reduction, slow changing offsets in the signal must be removed.  Observing figure 5 it is clear that the signal is slowly drifting which could
 
 \begin{figure}[t]
 \begin{center}
 %\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
    \includegraphics[width=0.8\linewidth]{../img/fig4.jpg}
-   \caption{}
+   \caption{Unfiltered input data with slowly varying DC offset}
 \end{center}
 \end{figure}
 
-lead to issues in later stages.  Bringing the data through a simple high pass filter with a cutoff of $0.25 Hz$ allows us to remove the offending drift without compromising the information in the data which is closer occurring at $1Hz$ or faster leaving us with the signal seen in figure 6
+Along with noise reduction, slow changing offsets in the signal must be removed.  Observing figure 4 it is clear that the signal is slowly drifting which could
+lead to issues in later stages.  Bringing the data through a simple high pass filter with a cutoff of $0.25 Hz$ allows us to remove the offending drift without compromising the information in the data which is closer occurring at $1Hz$ or faster leaving us with the signal seen in figure 5.
 
 \begin{figure}[t]
 \begin{center}
 %\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
    \includegraphics[width=0.8\linewidth]{../img/fig5.jpg}
-   \caption{}
+   \caption{Filted input data centered around 0}
 \end{center}
 \end{figure}
 
 \subsection{PCA and Projection}
 
-The data from the files is measured along 3 axis over time, however the data processing is targeted at 1 dimensional time signal.  In order to simplify further calculations the dimension of interest is extracted using PCA.  The 3 dimensional data is projected onto the primary eigenvector resulting in the 1 dimensional time signal we desire that has the majority of the movement information.  A 3 dimensional signal and its 1 dimensional projection are shown in the figures below:
+The data from the files is measured along 3 axis over time, however the data processing is targeted at 1 dimensional time signal.  In order to simplify further calculations the dimension of interest is extracted using PCA.  The 3 dimensional data is projected onto the primary eigenvector resulting in the 1 dimensional time signal we desire that has the majority of the movement information.  A 3 dimensional signal and its 1 dimensional projection are shown in figure 6.
 
 \begin{figure}[t]
 \begin{center}
 %\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
    \includegraphics[width=0.8\linewidth]{../img/fig6.jpg}
-   \caption{}
+   \caption{3-dimensional input signal}
 \end{center}
 \end{figure}
 
@@ -124,7 +123,7 @@ The data from the files is measured along 3 axis over time, however the data pro
 \begin{center}
 %\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
    \includegraphics[width=0.8\linewidth]{../img/fig7.jpg}
-   \caption{}
+   \caption{Projection of input signal onto first principal component}
 \end{center}
 \end{figure}
 
@@ -181,7 +180,7 @@ The range of data is from $-1.5g$ to $1.5g$, which is encoded using a linear map
 \begin{center}
 %\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
    \includegraphics[width=0.8\linewidth]{../img/fig8.jpg}
-   \caption{}
+   \caption{Example 1: A segmented full period of projected 1-dimensional data}
 \end{center}
 \end{figure}
 
@@ -189,7 +188,7 @@ The range of data is from $-1.5g$ to $1.5g$, which is encoded using a linear map
 \begin{center}
 %\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
    \includegraphics[width=0.8\linewidth]{../img/fig9.jpg}
-   \caption{}
+   \caption{Example 2: A segmented full period of projected 1-dimensional data}
 \end{center}
 \end{figure}
 \item \textbf{MACE Filter}\newline
@@ -199,11 +198,11 @@ The current result of MACE filter is pretty weak, which might implies that MACE 
 \begin{center}
 %\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
    \includegraphics[width=0.8\linewidth]{../img/fig10.jpg}
-   \caption{}
+   \caption{MACE filter response to segmented full periods of projected data}
 \end{center}
 \end{figure}
 
-For now, the input training vectors of MACE filter are whole trials, which involving multiple periods. The correlation result is considered to be improved by training the MACE filter on a period basis.
+For now, the input training vectors of MACE filter are whole trials, which involve multiple periods. The correlation result is considered to be improved by training the MACE filter on a period basis.
     \end{itemize}
 
 \subsection{Expected}
