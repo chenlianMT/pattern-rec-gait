@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  20 NOV 2015 10:03
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  20 NOV 2015 12:02
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -393,7 +393,7 @@ Missing character: There is no ™ in font ptmr7t!
  [1{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
-]
+] [2]
 Missing character: There is no â in font ptmr7t!
 Missing character: There is no € in font ptmr7t!
 Missing character: There is no ˜ in font ptmr7t!
@@ -403,7 +403,7 @@ Missing character: There is no ™ in font ptmr7t!
 Missing character: There is no â in font ptmr7t!
 Missing character: There is no € in font ptmr7t!
 Missing character: There is no ™ in font ptmr7t!
- [2]
+
 Underfull \hbox (badness 6842) in paragraph at lines 140--141
 []\OT1/ptm/m/n/10 Another cor-re-la-tion method to be con-sid-ered is
  []
@@ -434,10 +434,10 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
 Missing character: There is no â in font ptmr7t!
 Missing character: There is no € in font ptmr7t!
 Missing character: There is no ™ in font ptmr7t!
+[3]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-Underfull \vbox (badness 2368) has occurred while \output is active []
 
- [3]
 (/Users/raymondxyy/local/18794/pattern-rec-gait/latex/.texpadtmp/report.bbl
 (/Users/raymondxyy/local/18794/pattern-rec-gait/latex/.texpadtmp/report.brf)
 \tf@brf=\write3
@@ -458,11 +458,11 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 218.
 Here is how much of TeX's memory you used:
  6291 strings out of 493633
  90929 string characters out of 3143378
- 180273 words of memory out of 3000000
+ 179273 words of memory out of 3000000
  9459 multiletter control sequences out of 15000+200000
  26783 words of font info for 64 fonts, out of 3000000 for 9000
  831 hyphenation exceptions out of 8191
- 34i,9n,24p,853b,356s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 34i,9n,24p,853b,386s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/local/texlive/2011/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/te
 xlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texl
@@ -473,7 +473,7 @@ xmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2011/texmf-dist/f
 onts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2011/texmf-dist/fonts/type1
 /urw/times/utmri8a.pfb>
 Output written on /Users/raymondxyy/local/18794/pattern-rec-gait/latex/.texpadt
-mp/report.pdf (4 pages, 100820 bytes).
+mp/report.pdf (4 pages, 101066 bytes).
 PDF statistics:
  96 PDF objects out of 1000 (max. 8388607)
  81 compressed objects within 1 object stream
