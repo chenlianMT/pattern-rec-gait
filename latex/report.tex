@@ -137,7 +137,7 @@ Since walking can be approximated as a periodic movement of multiple body parts 
 \subsection{MACE Filtering for Individual Verification}
 To deal with pattern verification regardless of variations between different trials of the same individual, correlation seems to be a natural choice. As the first thought, a matched filter seems to be a choice. Matched filter is basically a template pattern that with training patterns as input, the correlation result will be at the pre-specified level, meaning ‘matched’. It is good for detecting the known reference with additive white Gaussian noise, but it’s not robust with even slight distortion of the data. 
 
-Another correlation method to be considered is MACE(Minimum Average Correlation Energy) filter[1]. As it minimizes the average energy of the correlation outputs while maintaining high correlation with origins, it will has better discrimination performance. 
+Another correlation method to be considered is MACE(Minimum Average Correlation Energy) filter~\cite{Author01}. As it minimizes the average energy of the correlation outputs while maintaining high correlation with origins, it will has better discrimination performance. 
 
 Testing vectors are normalized, to avoid correlation result confusion since different individuals might have considerable amplitude differences on accelerometer data.
 
@@ -155,7 +155,7 @@ We consider trying the following methods for the optimal classification scheme:
 %------------------------------------------------------------------------
 \section{Database}
 
-Dataset was found from UCI Machine Learning Repository[2], called ‘Dataset for ADL Recognition with Wrist-worn Accelerometer Data Set’. In this dataset, there are recordings of 16 volunteers performing 14 Activities of Daily Living(ADL) while carrying a wrist-worn tri-axial accelerometer. These 14 activities include brush-teeth, climb-stairs, comb-hair, descend-stairs, drink-glass, eat-meat, eat-soup, getup-bed, liedown-bed, pour-water, sitdown-chair, standup-chair, use-telephone, and walk.
+Dataset was found from UCI Machine Learning Repository~\cite{Author02}, called ‘Dataset for ADL Recognition with Wrist-worn Accelerometer Data Set’. In this dataset, there are recordings of 16 volunteers performing 14 Activities of Daily Living(ADL) while carrying a wrist-worn tri-axial accelerometer. These 14 activities include brush-teeth, climb-stairs, comb-hair, descend-stairs, drink-glass, eat-meat, eat-soup, getup-bed, liedown-bed, pour-water, sitdown-chair, standup-chair, use-telephone, and walk.
 
 For now, we are using $walk$ as the only label for individual verification. In the future, we need to add more labels to perform simple activity identification before running individual verification. Moreover, we plan to use data collected by our own using Pebble watch and Android device, to apply the method used in this project in real world.
 
@@ -209,5 +209,10 @@ For now, the input training vectors of MACE filter are whole trials, which invol
 
 %------------------------------------------------------------------------
 \section{Comparison with Other Work}
-Gait authentication by the means of pattern recognition is a novel idea. However, several workers have made the attempt to solve this problem with promising result. In their paper [3], Gafurov et al used three accelerometers to capture the accelerations along the X, Y, and Z dimensions. Then, they combined this three-dimensional data to calculate a more reliable combined acceleration signal. They further defined two features as functions of the combined acceleration signal, namely histogram similarity and cycle length, and used them as the features for their classifiers.
+Gait authentication by the means of pattern recognition is a novel idea. However, several workers have made the attempt to solve this problem with promising result. In their paper ~\cite{Author03}, Gafurov et al used three accelerometers to capture the accelerations along the X, Y, and Z dimensions. Then, they combined this three-dimensional data to calculate a more reliable combined acceleration signal. They further defined two features as functions of the combined acceleration signal, namely histogram similarity and cycle length, and used them as the features for their classifiers.
+
+{\small
+\bibliographystyle{ieee}
+\bibliography{egbib}
+}
 \end{document}

@@ -1,0 +1,62 @@
+This is BibTeX, Version 0.99d (TeX Live 2011)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: egpaper_final.aux
+The style file: ../ieee.bst
+Database file #1: ../egbib.bib
+I was expecting a `,' or a `}'---line 9 of file ../egbib.bib
+ :  
+ :  year = 1987
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--I didn't find a database entry for "Authors14"
+Warning--I didn't find a database entry for "Authors14b"
+Warning--I didn't find a database entry for "Alpher02"
+Warning--I didn't find a database entry for "Alpher03"
+Warning--I didn't find a database entry for "Alpher04"
+Name 1 in "Mahalanobis, Abhijit, B. V. K. Vijaya Kumar, and David Casasent" has a comma at the end for entry Author01
+while executing---line 1073 of file ../ieee.bst
+Name 1 in "Mahalanobis, Abhijit, B. V. K. Vijaya Kumar, and David Casasent" has a comma at the end for entry Author01
+while executing---line 1116 of file ../ieee.bst
+Warning--empty year in Author01
+You've used 1 entry,
+            2120 wiz_defined-function locations,
+            516 strings with 3973 characters,
+and the built_in function-call counts, 373 in all, are:
+= -- 36
+> -- 13
+< -- 0
++ -- 5
+- -- 4
+* -- 33
+:= -- 65
+add.period$ -- 3
+call.type$ -- 1
+change.case$ -- 5
+chr.to.int$ -- 0
+cite$ -- 2
+duplicate$ -- 11
+empty$ -- 30
+format.name$ -- 4
+if$ -- 72
+int.to.chr$ -- 0
+int.to.str$ -- 1
+missing$ -- 1
+newline$ -- 8
+num.names$ -- 2
+pop$ -- 5
+preamble$ -- 1
+purify$ -- 4
+quote$ -- 0
+skip$ -- 7
+stack$ -- 0
+substring$ -- 36
+swap$ -- 1
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 4
+warning$ -- 1
+while$ -- 4
+width$ -- 2
+write$ -- 12
+(There were 3 error messages)
