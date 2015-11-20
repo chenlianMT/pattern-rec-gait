@@ -37,5 +37,6 @@ else
 end
 if plotflag, figure(3); plot(repmat((0:step_size-1)',1,length(I)-1),...
         steps'); end
+steps = steps';%added to make verticle data
 end
 
