@@ -1,14 +1,36 @@
+clear;
 
-TRAIN = ;
-TEST = ;
-train_label = ;
-test_label = ;
+% Control Parameters
+DOPCA = 1;
+DOLDA = 0;
+
+[train_activity, train_label, TRAIN] = dataPreprocess_HAR('train');
+[test_activity, test_label, TEST] = dataPreprocess_HAR('test');
+train_idx = (train_activity == 1);
+test_idx = (test_activity == 1);
+TRAIN = TRAIN'; TRAIN = TRAIN(:,train_idx);
+TEST = TEST'; TEST = TEST(:,test_idx);
+train_label = train_label(train_idx);
+test_label = test_label(test_idx);
+%%{
+if DOPCA,
 [vecs, lambdas, TRAINnew, meanX] = PCA(TRAIN);
 [~,idx] = sort(lambdas,'descend');
-dim = 30;
+dim = sum(double(lambdas > 1));
 TRAINnew = TRAINnew(idx(1:dim),:);
 vecs = vecs(:,idx(1:dim));
 TESTnew = vecs' * (TEST-repmat(meanX,1,size(TEST,2)));
+end
+%}
+if DOLDA,
+[ vecs, lambdas ] = LDA(TRAIN, 30, train_label);
+[~,idx] = sort(lambdas,'descend');
+dim = sum((lambdas > 1));
+TRAINnew = TRAINnew(idx(1:dim),:);
+vecs = vecs(:,idx(1:dim));
+TESTnew = vecs' * TEST;
+end
 
-svm_model = svmtrain(train_label, TRAINnew, '-c 1 -g 0.07');
-[predict_label, accuracy, ~] = svmpredict(test_label, TESTnew, svm_model);
+
+svm_model = svmtrain(train_label, TRAIN', '-c 1 -g 0.03');
+[predict_label, accuracy, ~] = svmpredict(test_label, TEST', svm_model);
