@@ -1,4 +1,4 @@
-function [t, steps] = extract_period_gaus( X, thres, Fs, std_dev, step_size, nms_size, plotflag )
+function [t, steps, step_orig_size] = extract_period_gaus( X, thres, Fs, std_dev, step_size, nms_size, plotflag )
 %EXTRACT_PERIOD 
 % Given the accelerometer data and the sampling rate, determine the period
 % of the person's action in second
@@ -26,8 +26,10 @@ I = I(P>=thres);
 if length(I) > 1,
     t = mean(diff(I)) / Fs;
     steps = zeros(length(I)-1,step_size);
+    step_size_orig = zeros(length(I),1);
     for i = 1:length(I)-1,
         step = X(I(i):I(i+1));
+        step_orig_size(i) = length(step);
         step = resample(step,step_size,length(step));
         step = step - mean(step); % normalization
         step = step / norm(step);
