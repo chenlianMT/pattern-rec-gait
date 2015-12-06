@@ -4,8 +4,7 @@ clear;
 DOPCA = 1;
 DOLDA = 0;
 
-[train_activity, train_label, TRAIN] = dataPreprocess_HAR('train');
-[test_activity, test_label, TEST] = dataPreprocess_HAR('test');
+[TRAIN, TEST] = dataPreprocess_HAR(50);
 train_idx = (train_activity == 1);
 test_idx = (test_activity == 1);
 TRAIN = TRAIN'; TRAIN = TRAIN(:,train_idx);
