@@ -62,76 +62,75 @@ The input data has 3 dimension -- $x$-axis, $y$-axis and $z$-axis. The following
 
 \begin{figure}[t]
 \begin{center}
-\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
-   %\includegraphics[width=0.8\linewidth]{egfigure.eps}
-   \caption{}
+%\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
+   \includegraphics[width=0.8\linewidth]{../img/fig1.jpg}
+   \caption{Raw input signal}
 \end{center}
 \end{figure}
 
-By looking at the data, we can find that the period is around $0.7s$. Moreover, we noticed that the signal is pretty noisy, and a low pass filter might be useful for future processing. To find out a proper cutoff frequency, we did Fourier transform on the raw data, along its $x$ axis, resulting the following image:
+By looking at the data shown in the upper panel in figure 1, we can find that the period is around $0.7s$. Moreover, we noticed that the signal is pretty noisy, and a low pass filter might be useful for future processing. To find out a proper cutoff frequency, we did Fourier transform on the raw data, along its $x$ axis, resulting in figure 2.
 
 \begin{figure}[t]
 \begin{center}
-\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
-   %\includegraphics[width=0.8\linewidth]{egfigure.eps}
-   \caption{}
+%\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
+   \includegraphics[width=0.8\linewidth]{../img/fig2.jpg}
+   \caption{Frequency response of the raw signal}
 \end{center}
 \end{figure}
 
-By observing this image, the fundamental frequency is around $0.1\pi$, while the envelop is descending with ascending frequency. Taking a reasonable frequency diversity of different individuals into account, we finally set the cutoff frequency to $0.3\pi$. While a group delay is produced by passing data through a finite duration low pass filter, a trivial step is needed to remove this group delay. The filtered data shown below:
+By observing the frequency response, we find out that the fundamental frequency is around $0.1\pi$, while the envelop is descending with ascending frequency. Taking a reasonable frequency diversity of different individuals into account, we finally set the cutoff frequency to $0.3\pi$. While a group delay is produced by passing data through a finite duration low pass filter, a trivial step is needed to remove this group delay. The filtered data shown in figure 3.
 
 \begin{figure}[t]
 \begin{center}
-\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
-   %\includegraphics[width=0.8\linewidth]{egfigure.eps}
-   \caption{}
+%\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
+   \includegraphics[width=0.8\linewidth]{../img/fig3.jpg}
+   \caption{Input data after filtering}
 \end{center}
 \end{figure}
 
-Along with noise reduction, slow changing offsets in the signal must be removed.  Observing figure 5 it is clear that the signal is slowly drifting which could
-
 \begin{figure}[t]
 \begin{center}
-\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
-   %\includegraphics[width=0.8\linewidth]{egfigure.eps}
-   \caption{}
+%\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
+   \includegraphics[width=0.8\linewidth]{../img/fig4.jpg}
+   \caption{Unfiltered input data with slowly varying DC offset}
 \end{center}
 \end{figure}
 
-lead to issues in later stages.  Bringing the data through a simple high pass filter with a cutoff of $0.25 Hz$ allows us to remove the offending drift without compromising the information in the data which is closer occurring at $1Hz$ or faster leaving us with the signal seen in figure 6
+Along with noise reduction, slow changing offsets in the signal must be removed.  Observing figure 4 it is clear that the signal is slowly drifting which could
+lead to issues in later stages.  Bringing the data through a simple high pass filter with a cutoff of $0.25 Hz$ allows us to remove the offending drift without compromising the information in the data which is closer occurring at $1Hz$ or faster leaving us with the signal seen in figure 5.
 
 \begin{figure}[t]
 \begin{center}
-\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
-   %\includegraphics[width=0.8\linewidth]{egfigure.eps}
-   \caption{}
+%\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
+   \includegraphics[width=0.8\linewidth]{../img/fig5.jpg}
+   \caption{Filted input data centered around 0}
 \end{center}
 \end{figure}
 
 \subsection{PCA and Projection}
 
-The data from the files is measured along 3 axis over time, however the data processing is targeted at 1 dimensional time signal.  In order to simplify further calculations the dimension of interest is extracted using PCA.  The 3 dimensional data is projected onto the primary eigenvector resulting in the 1 dimensional time signal we desire that has the majority of the movement information.  A 3 dimensional signal and its 1 dimensional projection are shown in the figures below:
+The data from the files is measured along 3 axis over time, however the data processing is targeted at 1 dimensional time signal.  In order to simplify further calculations the dimension of interest is extracted using PCA.  The 3 dimensional data is projected onto the primary eigenvector resulting in the 1 dimensional time signal we desire that has the majority of the movement information.  A 3 dimensional signal and its 1 dimensional projection are shown in figure 6.
 
 \begin{figure}[t]
 \begin{center}
-\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
-   %\includegraphics[width=0.8\linewidth]{egfigure.eps}
-   \caption{}
+%\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
+   \includegraphics[width=0.8\linewidth]{../img/fig6.jpg}
+   \caption{3-dimensional input signal}
 \end{center}
 \end{figure}
 
 \begin{figure}[t]
 \begin{center}
-\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
-   %\includegraphics[width=0.8\linewidth]{egfigure.eps}
-   \caption{}
+%\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
+   \includegraphics[width=0.8\linewidth]{../img/fig7.jpg}
+   \caption{Projection of input signal onto first principal component}
 \end{center}
 \end{figure}
 
 As each person carries themselves differently the direction of this vector may also be telling as to who it is so this vector is saved to be a possible feature in further classifiers.
 
 \subsection{Period Extraction}
-Since walking can be approximated as a periodic movement of multiple body parts (legs cause bodies to move up and down; arms swing circularly with a certain period), we decided that the period of each dimension, and more importantly one full period of body movement along that dimension, are two important features that might help separate one person from another. To extract the period of a signal, we decided to employ the autocorrelation method, which computes the cross energy between a signal and its shifted copy.  
+Since walking can be approximated as a periodic movement of multiple body parts (legs cause bodies to move up and down; arms swing circularly with a certain period), we decided that the period of each dimension, and more importantly one full period of body movement along that dimension, are two important features that might help separate one person from another. To extract the period of a signal, we decided to employ the autocorrelation method, which computes the cross energy between a signal and its shifted copy. After that, we use the technique called non-local maximum suppression to sharpen the peak of the correlation output. As an alternative method, we used an FIR Gaussian filter to compute correlation, and the result shows better precision with faster computation speed, thanks to the Fast Fourier Transform.
 
 %-------------------------------------------------------------------------
 \subsection{MACE Filtering for Individual Verification}
@@ -179,17 +178,17 @@ The range of data is from $-1.5g$ to $1.5g$, which is encoded using a linear map
 
 \begin{figure}[t]
 \begin{center}
-\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
-   %\includegraphics[width=0.8\linewidth]{egfigure.eps}
-   \caption{}
+%\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
+   \includegraphics[width=0.8\linewidth]{../img/fig8.jpg}
+   \caption{Example 1: A segmented full period of projected 1-dimensional data}
 \end{center}
 \end{figure}
 
 \begin{figure}[t]
 \begin{center}
-\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
-   %\includegraphics[width=0.8\linewidth]{egfigure.eps}
-   \caption{}
+%\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
+   \includegraphics[width=0.8\linewidth]{../img/fig9.jpg}
+   \caption{Example 2: A segmented full period of projected 1-dimensional data}
 \end{center}
 \end{figure}
 \item \textbf{MACE Filter}\newline
@@ -197,20 +196,20 @@ The current result of MACE filter is pretty weak, which might implies that MACE 
 
 \begin{figure}[t]
 \begin{center}
-\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
-   %\includegraphics[width=0.8\linewidth]{egfigure.eps}
-   \caption{}
+%\fbox{\rule{0pt}{2in} \rule{0.9\linewidth}{0pt}}
+   \includegraphics[width=0.8\linewidth]{../img/fig10.jpg}
+   \caption{MACE filter response to segmented full periods of projected data}
 \end{center}
 \end{figure}
 
-For now, the input training vectors of MACE filter are whole trials, which involving multiple periods. The correlation result is considered to be improved by training the MACE filter on a period basis.
+For now, the input training vectors of MACE filter are whole trials, which involve multiple periods. The correlation result is considered to be improved by training the MACE filter on a period basis.
     \end{itemize}
 
 \subsection{Expected}
 
 %------------------------------------------------------------------------
 \section{Comparison with Other Work}
-Gait authentication by the means of pattern recognition is a novel idea. However, several workers have made the attempt to solve this problem with promising result. In their paper ~\cite{Author03}, Gafurov et al used three accelerometers to capture the accelerations along the X, Y, and Z dimensions. Then, they combined this three-dimensional data to calculate a more reliable combined acceleration signal. They further defined two features as functions of the combined acceleration signal, namely histogram similarity and cycle length, and used them as the features for their classifiers.
+Gait authentication by the means of pattern recognition is a novel idea. However, several workers have made the attempt to solve this problem with promising result. In their paper ~\cite{Author03}, Gafurov et al used three accelerometers to capture the accelerations along the X, Y, and Z dimensions. Then, they combined this three-dimensional data to calculate a more reliable combined acceleration signal. They further defined two features as functions of the combined acceleration signal, namely histogram similarity and cycle length, and used them as the features for their classifiers. So far, we have not reached the classification stage, so we have nothing to compare with their classification accuracy. Nevertheless, our ultimate goal is to reach comparable classification accuracy to the work mentioned above.
 
 {\small
 \bibliographystyle{ieee}

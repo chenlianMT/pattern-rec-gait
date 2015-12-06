@@ -34,6 +34,7 @@ gram_mat = X'*X;
 [vecs, lambdas] = eig(gram_mat);
 lambdas = diag(lambdas);
 vecs = X*vecs;
+vecs = normc(vecs);
 end
 
 function [vecs, lambdas] = norm_pca(X)
