@@ -1,28 +1,35 @@
-data = dataPreprocess('../../DATA/HMP_Dataset/Walk',1);
+data = dataPreprocess('../../DATA/HMP_Dataset/Walk',.25);
 
-data_filt = highPass_all(data,32,2);
-data_raw = projectData(data_filt);
-data_norm = projectData_norm(data);
+data_filt = highPass_all(data,32,1);
+data_filt = projectData(data_filt);
+data_norm = projectData(data);
 
-person = 4;
-trial = 3;
+person = 7;
+trial = 2;
 
 
-length_trial = length(data_raw.dataProj{person}{trial});
+length_trial = length(data_filt.dataProj{person}{trial});
 figure
-plot(1:length_trial, data_raw.dataProj{person}{trial}, 'b');
-title('After PCA on raw');
+plot(1:length_trial, data_filt.dataProj{person}{trial}, 'r');
+title('Filtered Data');
 figure
-plot(1:length_trial, -data_norm.dataProj{person}{trial}, 'r');
-title('After PCA on norm');
+plot(1:length_trial, -data_norm.dataProj{person}{trial}, 'b');
+title('Unfiltered data');
 
+figure
+plot(data_filt.data{person}{trial}')
+figure
+plot(data_filt.dataProj{person}{trial},'r')
 %data_raw_filt = highPass(data_raw, 32, 5);
 
-data_raw = extract_all_periods(data_raw,.5,32,50,10);
-data_norm = extract_all_periods(data_norm,.5,32,50,10);
+
+%plot(xcorr(test_dat, gaus, 'unbiased'));
+
+data_raw = extract_all_periods_gaus(data_raw,.5,32,.3,50,10);
+data_norm = extract_all_periods_gaus(data_norm,.5,32,.3,50,10);
 
 person1 = 9;
-person2 = 1;
+person2 = 8;
 num_trials_1 = length(data_raw.steps{person1});
 num_trials_2 = length(data_raw.steps{person2});
 needs_first = 1;

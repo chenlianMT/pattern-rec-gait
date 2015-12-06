@@ -1,0 +1,69 @@
+This is BibTeX, Version 0.99d (TeX Live 2011)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: report.aux
+The style file: ../ieee.bst
+Database file #1: ../egbib.bib
+I was expecting a `,' or a `}'---line 9 of file ../egbib.bib
+ :  
+ :  year = 1987
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Name 1 in "Mahalanobis, Abhijit, B. V. K. Vijaya Kumar, and David Casasent" has a comma at the end for entry Author01
+while executing---line 1073 of file ../ieee.bst
+Too many commas in name 1 of "Gafurov, D., Snekkenes, E., & Bours, P." for entry Author03
+while executing---line 1073 of file ../ieee.bst
+Too many commas in name 1 of "Gafurov, D., Snekkenes, E., & Bours, P." for entry Author03
+while executing---line 1073 of file ../ieee.bst
+Too many commas in name 1 of "Gafurov, D., Snekkenes, E., & Bours, P." for entry Author03
+while executing---line 1073 of file ../ieee.bst
+Too many commas in name 1 of "Gafurov, D., Snekkenes, E., & Bours, P." for entry Author03
+while executing---line 1116 of file ../ieee.bst
+Too many commas in name 1 of "Gafurov, D., Snekkenes, E., & Bours, P." for entry Author03
+while executing---line 1116 of file ../ieee.bst
+Too many commas in name 1 of "Gafurov, D., Snekkenes, E., & Bours, P." for entry Author03
+while executing---line 1116 of file ../ieee.bst
+Name 1 in "Mahalanobis, Abhijit, B. V. K. Vijaya Kumar, and David Casasent" has a comma at the end for entry Author01
+while executing---line 1116 of file ../ieee.bst
+Warning--empty year in Author01
+You've used 3 entries,
+            2120 wiz_defined-function locations,
+            519 strings with 4324 characters,
+and the built_in function-call counts, 967 in all, are:
+= -- 99
+> -- 27
+< -- 1
++ -- 11
+- -- 8
+* -- 58
+:= -- 154
+add.period$ -- 9
+call.type$ -- 3
+change.case$ -- 13
+chr.to.int$ -- 0
+cite$ -- 4
+duplicate$ -- 38
+empty$ -- 84
+format.name$ -- 8
+if$ -- 207
+int.to.chr$ -- 0
+int.to.str$ -- 3
+missing$ -- 2
+newline$ -- 18
+num.names$ -- 6
+pop$ -- 18
+preamble$ -- 1
+purify$ -- 10
+quote$ -- 0
+skip$ -- 33
+stack$ -- 0
+substring$ -- 78
+swap$ -- 12
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 12
+warning$ -- 1
+while$ -- 11
+width$ -- 4
+write$ -- 33
+(There were 9 error messages)
