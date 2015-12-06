@@ -1,4 +1,4 @@
-function [training, testing] = dataPreprocess_HAR(percent_test)
+function [training, testing] = dataPreprocess_HAR(percent_test, activity)
 % dataset_select = 'train' to extract training data
 % dataset_select = 'test' to extract testing data
 training = struct('label_activity',[],'label_subject',[],'features_561',...
@@ -53,6 +53,17 @@ path_cells{17} = total_acc_y_path_test;
 path_cells{18} = total_acc_z_path_test;
 
 %% get label
+fileID = fopen(label_activity_path_test, 'r');
+label_activity_test = fscanf(fileID, '%f');
+fclose(fileID);
+
+fileID = fopen(label_activity_path_train, 'r');
+label_activity_train = fscanf(fileID, '%f');
+fclose(fileID);
+
+label_activity = [label_activity_test;label_activity_train];
+activity_idx = label_activity == activity;
+
 fileID = fopen(label_subject_path_train, 'r');
 label_subject_train = fscanf(fileID, '%f');
 fclose(fileID);
@@ -62,6 +73,7 @@ label_subject_test = fscanf(fileID, '%f');
 fclose(fileID);
 
 label_subject = [label_subject_train;label_subject_test];
+label_subject = label_subject(activity_idx);
 num_subj = max(label_subject);
 test_idx = cell(num_subj,1);
 train_idx = cell(num_subj,1);
@@ -79,24 +91,6 @@ end
 training.label_subject = train_label;
 testing.label_subject = test_label;
 
-fileID = fopen(label_activity_path_test, 'r');
-label_activity_test = fscanf(fileID, '%f');
-fclose(fileID);
-
-fileID = fopen(label_activity_path_train, 'r');
-label_activity_train = fscanf(fileID, '%f');
-fclose(fileID);
-
-label_activity = [label_activity_test;label_activity_train];
-test_activity = [];
-train_activity = [];
-for i = 1:num_subj
-    test_activity = [test_activity;label_activity(test_idx{i})];
-    train_activity = [train_activity;label_activity(train_idx{i})];
-end
-training.label_activity = train_activity;
-testing.label_activity = test_activity;
-
 fileID = fopen(features_561_path_test, 'r');
 features_561 = fscanf(fileID, '%f');
 features_561 = buffer(features_561, 561, 0, 'nodelay');
@@ -110,6 +104,7 @@ features_561_train = features_561';
 fclose(fileID);
 
 features_561 = [features_561_test;features_561_train];
+features_561 = features_561(activity_idx,:);
 
 test_feat = [];
 train_feat = [];
