@@ -26,7 +26,7 @@ I = I(P>=thres);
 if length(I) > 1,
     t = mean(diff(I)) / Fs;
     steps = zeros(length(I)-1,step_size);
-    step_size_orig = zeros(length(I),1);
+    step_orig_size = zeros(length(I),1);
     for i = 1:length(I)-1,
         step = X(I(i):I(i+1));
         step_orig_size(i) = length(step);
@@ -38,6 +38,7 @@ if length(I) > 1,
 else
     t = Inf; % unable to determine the period
     steps = [];
+    step_orig_size = 0;
 end
 if plotflag, figure(3); plot(repmat((0:step_size-1)',1,length(I)-1),...
         steps'); end
