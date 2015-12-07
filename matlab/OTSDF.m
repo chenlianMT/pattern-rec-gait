@@ -18,7 +18,7 @@ function [h, H] = OTSDF(x, alpha, u)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 [K, N] = size(x);
-if nargin < 2,
+if nargin < 3,
     u = ones(N, 1);
 end
 
