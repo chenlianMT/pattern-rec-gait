@@ -1,7 +1,7 @@
 %data_raw = dataPreprocess_HAR_raw();
 TEST_NUM = 1;
 TEST_SAME = 4;
-TEST_OTHER = 30;
+TEST_OTHER = 90;
 
 test_x = data_raw.body_acc_x{TEST_NUM};
 test_y = data_raw.body_acc_y{TEST_NUM};
@@ -153,28 +153,31 @@ plot3(steps_1_proj(1,:),steps_1_proj(2,:),steps_1_proj(3,:),'b*');
 plot3(steps_2_proj(1,:),steps_2_proj(2,:),steps_2_proj(3,:),'*r');
 plot3(steps_3_proj(1,:),steps_3_proj(2,:),steps_3_proj(3,:),'*g');
 
+axis_val = [0, step_len, -.5, 1.5];
 figure
 hold on
 for i = 1:size(steps_1,2)
-    correlation_train = real(ifft(fft(steps_1(:, i)) .* conj(H_OTSDF))) * std_pace_length;
+    correlation_train = real(ifft(fft(steps_1(:, i)) .* conj(H_OTSDF))) * step_len;
     plot(correlation_train);
 end
 title('Trained Set');
+axis(axis_val);
 figure
 hold on
 for i = 1:size(steps_2,2)
-    correlation_same = real(ifft(fft(steps_2(:, i)) .* conj(H_OTSDF))) * std_pace_length;
+    correlation_same = real(ifft(fft(steps_2(:, i)) .* conj(H_OTSDF))) * step_len;
     plot(correlation_same);
 end
 title('Same Person');
+axis(axis_val);
 figure
 hold on
 for i = 1:size(steps_3,2)
-    correlation_diff = real(ifft(fft(steps_3(:, i)) .* conj(H_OTSDF))) * std_pace_length;
+    correlation_diff = real(ifft(fft(steps_3(:, i)) .* conj(H_OTSDF))) * step_len;
     plot(correlation_diff);
 end
 title('Different Person');
-    
+axis(axis_val); 
     
     
     
