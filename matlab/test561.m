@@ -1,8 +1,11 @@
 clear;
 
 % Control Parameters
-DOPCA = 1;
+DOPCA = 0;
 DOLDA = 0;
+DOIPCA = 1;
+
+DONOTHING = ~(DOPCA || DOLDA || DOIPCA);
 
 [TRAIN, TEST] = dataPreprocess_HAR(30,1);
 %train_idx = (train_activity == 1);
@@ -35,7 +38,29 @@ train_new = (vecs' * train')';
 test_new = (vecs' * test')';
 end
 
-if ~DOPCA && ~DOLDA,
+if DOIPCA,
+train_ipca = cell(30,2);
+for c = 1:30,
+    cur_train = train(TRAIN.label_subject==c,:);
+    [vecs, lambdas, train_new, meanX] = PCA(cur_train');
+    [~,idx] = sort(lambdas,'descend');
+    dim = sum(double(lambdas > 1));
+    train_ipca{c,1} = vecs(:,idx(1:dim));
+    train_ipca{c,2} = meanX;
+end
+
+err = zeros(size(test,1),30);
+for c = 1:30,
+    test_m0 = (test'-repmat(train_ipca{c,2},1,size(test,1)))';
+    test_proj = (test_m0 * train_ipca{c,1});
+    test_recon = (test_proj * train_ipca{c,1}');
+    err(:,c) = sum((test_recon - test).^2,2);
+end
+[~,ipca_label] = min(err,[],2);
+accu = sum((ipca_label==test_label)+0)/length(test_label);
+end
+
+if DONOTHING,
     train_new = train;
     test_new = test;
 end
