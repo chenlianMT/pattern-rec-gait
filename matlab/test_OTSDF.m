@@ -1,8 +1,8 @@
 raw_data = dataPreprocess_HAR_raw();
 
 %% plot raw_data body_x for subject 2 and subject 4
-subject2 = raw_data.body_acc_x{1, 1};
-subject4 = raw_data.body_acc_x{5, 1};
+subject2 = raw_data.body_acc_x{1};
+subject4 = raw_data.body_acc_x{5};
 % plot(subject2);
 % hold on;
 % plot(subject4);
@@ -52,7 +52,7 @@ if (normalized),
 end
 
 %% train otsdf filter based on first 13 periods of subject 1
-alpha = 1;
+alpha = 0.01;
 [h_OTSDF, H_OTSDF] = OTSDF(training, alpha);
 
 %% compute correlation
