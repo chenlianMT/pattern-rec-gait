@@ -24,6 +24,8 @@ else
     [vecs, lambdas] = norm_pca(X);
 end
 
+[lambdas,idx] = sort(lambdas,'descend');
+vecs = vecs(:,idx);
 Xnew = vecs'*X;
 
 
