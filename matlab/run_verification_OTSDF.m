@@ -1,4 +1,4 @@
-function run_verification_OTSDF(raw_data, alpha)
+function run_verification_OTSDF(raw_data, alpha, threshold)
 
 % raw_data = dataPreprocess_HAR_raw();
 
@@ -24,12 +24,29 @@ same_score = [same_score, verify_OTSDF(raw_data, subject, step_len, H_OTSDF, 3, 
 all_subject = unique(raw_data.label_subject_raw);
 diff_score = [];
 for subject = all_subject(:)'
-    temp = verify_OTSDF(raw_data, subject, step_len, H_OTSDF, 1, xyz);
-    diff_score = [diff_score, temp];
+    if subject == 2,
+        continue,
+    end
+    for index = 1:4,
+        temp = verify_OTSDF(raw_data, subject, step_len, H_OTSDF, index, xyz);
+        diff_score = [diff_score, temp];
+    end
 end
 
 % plot
 figure
     bar([training_score, same_score, diff_score]);
     title(sprintf('Correlation output of OTSDF filter alpha = %.2f', alpha));
-    
+
+TP = length(find(same_score > threshold))/(length(find(same_score > threshold)) + length(find(same_score < threshold)));
+FP = length(find(diff_score > threshold))/(length(find(diff_score > threshold)) + length(find(diff_score < threshold)));
+TN = length(find(diff_score < threshold))/(length(find(diff_score > threshold)) + length(find(diff_score < threshold)));
+FN = 1 - TP;
+fprintf('True Positive: %.2f', TP);
+disp('\n')
+fprintf('False Positive: %.2f', FP);
+disp('\n')
+fprintf('True Negative: %.2f', TN);
+disp('\n')
+fprintf('False Negative: %.2f', FN);
+disp('\n')

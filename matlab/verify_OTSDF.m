@@ -29,13 +29,16 @@ end
 entries = find(raw_data.label_subject_raw == subject);
 entry = entries(experiment_index);
 dataVec = raw_data.body_acc_x{entry};
-testVec = buffer(dataVec(1, :), step_length, 0, 'nodelay');
+testVec = extract_OTSDF(dataVec, step_length);
+% testVec = buffer(dataVec(1, :), step_length, 0, 'nodelay');
 if strcmp(xyz_flag, 'xyz')
     dataVec = [dataVec; raw_data.body_acc_y{entry}];
-    testVec = [testVec; buffer(dataVec(2, :), step_length, 0, 'nodelay')];
-    
+%     testVec = [testVec; buffer(dataVec(2, :), step_length, 0, 'nodelay')];
+    testVec = [testVec; extract_OTSDF(dataVec(2, :), step_length)];
+
     dataVec = [dataVec; raw_data.body_acc_z{entry}];
-    testVec = [testVec; buffer(dataVec(3, :), step_length, 0, 'nodelay')];
+%     testVec = [testVec; buffer(dataVec(3, :), step_length, 0, 'nodelay')];
+    testVec = [testVec; extract_OTSDF(dataVec(3, :), step_length)];
 end
 
 % normalize
