@@ -18,6 +18,11 @@ mean_val = mean(proj);
 if(mean_val > .5)
     proj = -proj + 1;
 end
+figure;
+plot(proj);
+title('Figure 1: 1-D Projected data')
+ylabel('Acceleration (Normalized)');
+xlabel('Sample');
 step_len = 55;
 thresh = .7;
 last_val = 0;
@@ -47,7 +52,7 @@ for i = 1:length(proj)
     end
     last_val = cur_val;
 end
-title('All threshold steps');
+title('Figure 2: All threshold steps');
 xlabel('Step Sample');
 ylabel('Normalized acceleration');
 [vecs, lambda, steps_1_proj, steps_1_mean] = PCA(steps_1, false);
@@ -62,7 +67,7 @@ good_steps = steps_1(:,label == my_label);
 for i = 1:size(good_steps,2)
     plot(good_steps(:,i));
 end
-title('Kmeans extracted steps');
+title('Figure 4: Kmeans extracted steps');
 xlabel('Step Sample');
 ylabel('Normalized acceleration');
 figure
@@ -72,7 +77,7 @@ for i = 1:3
     steps = steps_1_proj(1:3,label == i);
     plot3(steps(1,:),steps(2,:),steps(3,:),['*',color(i)]);
 end
-title('Kmeans result on steps in PCA Space');
+title('Figure 3: Kmeans result on steps in PCA Space');
 
 
 [h_OTSDF, H_OTSDF] = OTSDF(good_steps,.9);
@@ -184,7 +189,7 @@ for i = 1:size(steps_2,2)
     correlation_same = real(ifft(fft(steps_2(:, i)) .* conj(H_OTSDF))) * step_len;
     plot(correlation_same);
 end
-title('Same Person Correlation Output');
+title('Figure 5: Same Person Correlation Output');
 axis(axis_val);
 figure
 hold on
@@ -192,7 +197,7 @@ for i = 1:size(steps_3,2)
     correlation_diff = real(ifft(fft(steps_3(:, i)) .* conj(H_OTSDF))) * step_len;
     plot(correlation_diff);
 end
-title('Different Person Correlation Output');
+title('Figure 6: Different Person Correlation Output');
 axis(axis_val); 
     
 %% Test on all
@@ -248,6 +253,6 @@ for j = 1:num_tests
 end
 figure
 bar(class_result);
-title('Max Correlation result per trial');
+title('Figure 7: Max Correlation result per trial');
 xlabel('Trial Number (first 4 are the trained person)');
 ylabel('Max Correlation output from the trial');
