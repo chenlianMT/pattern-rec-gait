@@ -8,7 +8,7 @@ steps_1 = [];
 %figure;
 %hold on
 num_steps = 0;
-while num_steps < 5
+while num_steps < 10
     num_steps = 0;
     is_step = false;
     steps_1 = [];
