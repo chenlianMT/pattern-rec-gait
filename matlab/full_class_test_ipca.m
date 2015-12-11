@@ -3,8 +3,8 @@ num_trial = length(data_raw.label_subject_raw);
 step_len = 55;
 thresh  = .7;
 num_eigs = 4;
-num_thresh = 6;
-class_thresh = [.115,.12,.125,.13,.135,.14];
+num_thresh = 4;
+class_thresh_perc = [1.05,1.1,1.15,1.2];
 true_pos_vec = zeros(1,num_thresh);
 true_neg_vec = zeros(1,num_thresh);
 false_pos_vec = zeros(1,num_thresh);
@@ -41,14 +41,14 @@ for m = 1:num_thresh
         else
             vecs = vecs(:,1:num_eigs);
         end
-        %{
+        
         mean_rep = repmat(mean_vec,[1,size(good_steps,2)]);
         proj = vecs'*(good_steps - mean_rep);
         reconstruct = (vecs*proj) + mean_rep;
         err_vec = good_steps - reconstruct;
         dist_vec = sqrt(sum(err_vec.^2,1));
         cur_thresh = max(dist_vec) * class_thresh_pec(m);
-        %}
+        
 
         ground_truth = data_raw.label_subject_raw == data_raw.label_subject_raw(i);
         ground_truth = logical([ground_truth(1:i-1);ground_truth(i+1:end)]);
