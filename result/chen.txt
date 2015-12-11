@@ -1,7 +1,7 @@
 OTSDF:
 
 step 1:
-training on subject 2, experiment 1, manually labeled 15 steps
+training on subject 2, experiment 1, manually labeled 15 steps, only use x-axis
 
 step 2:
 extract steps from all other experiments, resample them to the standard step length
