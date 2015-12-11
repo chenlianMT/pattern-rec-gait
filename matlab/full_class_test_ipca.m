@@ -4,13 +4,13 @@ step_len = 55;
 thresh  = .7;
 num_eigs = 4;
 num_thresh = 4;
-class_thresh_perc = [1.05,1.1,1.15,1.2];
+class_thresh_pec = [1.05,1.1,1.15,1.35];
 true_pos_vec = zeros(1,num_thresh);
 true_neg_vec = zeros(1,num_thresh);
 false_pos_vec = zeros(1,num_thresh);
 false_neg_vec = zeros(1,num_thresh);
 class_result = zeros(num_trial,1);
-for m = 1:num_thresh
+for m = 4:num_thresh
     false_pos = 0;
     false_neg = 0;
     true_pos = 0;
@@ -53,6 +53,7 @@ for m = 1:num_thresh
         ground_truth = data_raw.label_subject_raw == data_raw.label_subject_raw(i);
         ground_truth = logical([ground_truth(1:i-1);ground_truth(i+1:end)]);
         for j = 1:num_trial
+            
             if i == j
                 continue;
             end
