@@ -1,7 +1,7 @@
 %data_raw = dataPreprocess_HAR_raw();
 TEST_NUM = 1;
-TEST_SAME = 4;
-TEST_OTHER = 90;
+TEST_SAME = 3;
+TEST_OTHER = 29;
 
 test_x = data_raw.body_acc_x{TEST_NUM};
 test_y = data_raw.body_acc_y{TEST_NUM};
@@ -49,17 +49,26 @@ for i = 1:length(proj)
 end
 [vecs, lambda, steps_1_proj, steps_1_mean] = PCA(steps_1, false);
 
-%label = my_kmeans(steps_1_proj(1:5,:)',3);
+label = multi_kmeans(steps_1_proj(1:5,:),3,100);
 
-%figure
+my_label = mode(label);
+figure
 hold on
-good_steps = steps_1(:,label == 3);
-%{
+good_steps = steps_1(:,label == my_label);
+
 for i = 1:size(good_steps,2)
     plot(good_steps(:,i));
 end
-%}
-[h_OTSDF, H_OTSDF] = OTSDF(good_steps,.7);
+
+figure
+hold on
+color = ['r';'g';'b';];
+for i = 1:3
+    steps = steps_1_proj(1:3,label == i);
+    plot3(steps(1,:),steps(2,:),steps(3,:),['*',color(i)]);
+end
+
+[h_OTSDF, H_OTSDF] = mace(good_steps);
 test_x = data_raw.body_acc_x{TEST_SAME};
 test_y = data_raw.body_acc_y{TEST_SAME};
 test_z = data_raw.body_acc_z{TEST_SAME};
@@ -179,6 +188,56 @@ end
 title('Different Person');
 axis(axis_val); 
     
-    
-    
-    
+%% Test on all
+num_tests = length(data_raw.body_acc_x);
+class_result = zeros(1,num_tests);
+for j = 1:num_tests
+    test_x = data_raw.body_acc_x{j};
+    test_y = data_raw.body_acc_y{j};
+    test_z = data_raw.body_acc_z{j};
+    test_all = [test_x;test_y;test_z];
+
+    [~,~,proj,~] = PCA(test_all,false);
+    proj = proj(1,:);
+    min_val = min(proj);
+    proj = proj - min_val;
+    max_val = max(proj);
+    proj = proj ./ max_val;
+    mean_val = mean(proj);
+    if(mean_val > .5)
+        proj = -proj + 1;
+    end
+    last_val = 0;
+    is_step = false;
+    last_idx = -step_len;
+    steps_j = [];
+    %figure;
+    %hold on
+    for i = 1:length(proj)
+        cur_val = proj(i);
+        if (cur_val > thresh && last_val < thresh)
+            if(i)
+                is_step = true;
+                last_idx = i;
+            end
+        end
+        if(cur_val < last_val && is_step)
+            if((i+step_len-1)>length(proj))
+                break;
+            end
+            %plot(proj(i-1:i+step_len-2));
+            step = proj(i-1:i+step_len-2);
+            step = step ./ sqrt(sum(step.^2));
+            steps_j = [steps_j,step'];
+            is_step = false;
+        end
+        last_val = cur_val;
+    end
+    correlation = zeros(size(steps_j));
+    for i = 1:size(steps_j,2)
+        correlation(:,i) = abs(ifft(fft(steps_j(:, i)) .* conj(H_OTSDF))) * step_len;
+    end
+    class_result(j) = max(max(correlation,[],1),[],2);
+end
+figure
+bar(class_result);
