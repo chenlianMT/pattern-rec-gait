@@ -49,14 +49,23 @@ for i = 1:length(proj)
 end
 [vecs, lambda, steps_1_proj, steps_1_mean] = PCA(steps_1, false);
 
-%label = my_kmeans(steps_1_proj(1:5,:)',3);
+label = multi_kmeans(steps_1_proj(1:5,:),3,100);
 
+my_label = mode(label);
 figure
 hold on
-good_steps = steps_1(:,label == 3);
+good_steps = steps_1(:,label == my_label);
 
 for i = 1:size(good_steps,2)
     plot(good_steps(:,i));
+end
+
+figure
+hold on
+color = ['r';'g';'b';];
+for i = 1:3
+    steps = steps_1_proj(1:3,label == i);
+    plot3(steps(1,:),steps(2,:),steps(3,:),['*',color(i)]);
 end
 
 [h_OTSDF, H_OTSDF] = mace(good_steps);
