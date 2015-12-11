@@ -1,9 +1,10 @@
-data_raw = dataPreprocess_HAR_raw();
+%data_raw = dataPreprocess_HAR_raw();
 num_trial = length(data_raw.label_subject_raw);
 step_len = 55;
 thresh  = .7;
-num_thresh = 5;
-class_thresh = [.9,1,1.1,1.2,1.3];
+num_eigs = 4;
+num_thresh = 6;
+class_thresh = [.115,.12,.125,.13,.135,.14];
 true_pos_vec = zeros(1,num_thresh);
 true_neg_vec = zeros(1,num_thresh);
 false_pos_vec = zeros(1,num_thresh);
@@ -32,7 +33,22 @@ for m = 1:num_thresh
         end
 
         good_steps = extract_steps(proj,thresh,step_len);
-        [h_OTSDF, H_OTSDF] = OTSDF(good_steps,.9);
+        num_steps = size(good_steps,2);
+        [vecs,lambda,~,mean_vec] = PCA(good_steps,false);
+        
+        if(num_steps < num_eigs)
+            vecs = vecs(:,1:num_steps);
+        else
+            vecs = vecs(:,1:num_eigs);
+        end
+        %{
+        mean_rep = repmat(mean_vec,[1,size(good_steps,2)]);
+        proj = vecs'*(good_steps - mean_rep);
+        reconstruct = (vecs*proj) + mean_rep;
+        err_vec = good_steps - reconstruct;
+        dist_vec = sqrt(sum(err_vec.^2,1));
+        cur_thresh = max(dist_vec) * class_thresh_pec(m);
+        %}
 
         ground_truth = data_raw.label_subject_raw == data_raw.label_subject_raw(i);
         ground_truth = logical([ground_truth(1:i-1);ground_truth(i+1:end)]);
@@ -56,14 +72,17 @@ for m = 1:num_thresh
                 proj = -proj + 1;
             end
             test_steps = extract_steps(proj,thresh,step_len);
+            mean_rep = repmat(mean_vec,[1,size(test_steps,2)]);
+            test_steps_cent = test_steps - mean_rep;
+            test_steps_proj = vecs'*test_steps_cent;
+            test_steps_recon = vecs*test_steps_proj;
+            test_steps_recon = test_steps_recon + mean_rep;
+            err_vec = test_steps-test_steps_recon;
+            dist = sqrt(sum(err_vec.^2,1));
             correlation = zeros(size(test_steps));
-            for k = 1:size(test_steps,2)
-                correlation(:,k) = abs(ifft(fft(test_steps(:, k)) .* conj(H_OTSDF))) * step_len;
-            end
-            class_result(j) = max(max(correlation,[],1),[],2);
-            
+            class_result(j) = min(dist);
         end
-        is_train = (class_result > class_thresh(m));
+        is_train = (class_result < cur_thresh);
         is_train = logical([is_train(1:(i-1));is_train((i+1):end)]);
         true_pos = true_pos + sum(is_train & ground_truth);
         true_neg = true_neg + sum(~is_train & ~ground_truth);
