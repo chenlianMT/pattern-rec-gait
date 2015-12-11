@@ -24,26 +24,27 @@ for i = 1:30,
     disp(num2str(i));
     Piidx = data_raw.label_subject_raw == 1;
     Pi = [cell2mat(data_raw.body_acc_x(Piidx)');...
-      cell2mat(data_raw.body_acc_y(Piidx)');...
-      cell2mat(data_raw.body_acc_z(Piidx)')];
-    Pi = Pi(:,1:(floor(size(Pi,2)/stepsize)*stepsize));
-    numsamp = size(Pi,2) / stepsize;
+       cell2mat(data_raw.body_acc_y(Piidx)');...
+       cell2mat(data_raw.body_acc_z(Piidx)')];
+    Pi = Pi - repmat(min(Pi,[],2),1,size(Pi,2));
+    Pi = Pi ./ repmat(max(Pi,[],2),1,size(Pi,2));
+    [sx,sy,sz] = extract_steps_2(Pi,0.7, 55);
+    [stepsize,numsamp] = size(sx);
+    %Pi = Pi(:,1:(floor(size(Pi,2)/stepsize)*stepsize));
     numtrain = floor(numsamp * train_portion);
     numtest = numsamp - numtrain;
-    Ptrain = Pi(:,1:numtrain*stepsize);
-    Ptest = Pi(:,numtrain*stepsize+1:end);
     for j = 1:numtrain,
-        cur = Ptrain(:,((j-1)*stepsize+1):(j*stepsize));
+        cur = [sx(:,j),sy(:,j),sz(:,j)]';
         [vecs,~,~,~] = PCA(cur);
         TRAIN = [TRAIN; reshape(vecs,1,9) i];
     end
     for j = 1:numtest,
-        cur = Ptest(:,((j-1)*stepsize+1):(j*stepsize));
+        cur = [sx(:,j+numtrain),sy(:,j+numtrain),sz(:,j+numtrain)]';
         [vecs,~,~,~] = PCA(cur);
         TEST = [TEST; reshape(vecs,1,9) i];
     end
 end
 
 %% SVM
-svm_model = svmtrain((TRAIN(:,end) == 1)+0, TRAIN(:,1:end-1), '-t 3');
-[predict_label, accuracy, ~] = svmpredict((TEST(:,end)==1)+0, TEST(:,1:end-1), svm_model);
+svm_model = svmtrain((TRAIN(:,end))+0, TRAIN(:,1:end-1), '-t 2');
+[predict_label, accuracy, ~] = svmpredict((TEST(:,end))+0, TEST(:,1:end-1), svm_model);
